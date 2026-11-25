@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>pig 引擎设置</title>
+<style>body{font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:20px}.status{padding:12px 14px;border:1px solid var(--cindy-border,#8886);border-radius:8px}.ok{color:#15803d}.bad{color:#b91c1c}button{padding:6px 12px;margin-top:12px}</style></head>
+<body><div id="status" class="status">正在检测本机 pig…</div><button id="refresh" type="button">重新检测</button>
+<script>
+async function publish(){const status=document.getElementById('status');try{const r=await fetch('/harnesses?probe=1',{method:'POST'});const p=await r.json();let h=p&&(p.harness||p.result);if(!h&&p&&Array.isArray(p.harnesses))h=p.harnesses.find(x=>x&&x.id==='pig');if(!h){status.className='status bad';status.textContent='当前 Cindy 版本不支持执行引擎状态接口';return}status.className='status '+(h.available?'ok':'bad');status.textContent=h.available?('pig 可用'+(h.version?'：'+h.version:'')):('pig 不可用：'+(h.message||'未知原因'))}catch(e){status.className='status bad';status.textContent='检测失败：'+String(e&&e.message||e)}}
+document.getElementById('refresh').addEventListener('click',publish);publish();
+</script></body></html>
+

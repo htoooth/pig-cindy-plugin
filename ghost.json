@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 3,
+  "minCindyVersion": "0.1.145",
+  "id": "pig-harness",
+  "name": "PiG Harness",
+  "description": "把本机 pig CLI 作为 Cindy 任务执行引擎（ACP 桥接）。",
+  "whenToUse": "当用户希望用本机 pig 作为 Cindy 的任务执行引擎，或把任务交给 PiG Harness 处理时。",
+  "icon": "assets/icon.png",
+  "version": "1.2.0",
+  "kind": "chip",
+  "entry": "main.js",
+  "settingsHtml": "settings.html",
+  "node": {
+    "entry": "node/worker.cjs",
+    "protocol": "json-rpc-stdio",
+    "lifecycle": "on-demand",
+    "idleTimeoutSeconds": 120,
+    "entries": [
+      "node/acp.cjs"
+    ]
+  },
+  "harnesses": [
+    {
+      "id": "pig",
+      "name": "PiG Harness",
+      "description": "在本机运行官方 pig-acp，由 Cindy 统一驱动 PiG ACP 会话。",
+      "protocol": "acp",
+      "entry": "node/acp.cjs",
+      "locales": {
+        "zh-CN": {
+          "name": "PiG Harness",
+          "description": "在本机运行官方 pig-acp，由 Cindy 统一驱动 PiG ACP 会话。"
+        }
+      }
+    }
+  ]
+}
